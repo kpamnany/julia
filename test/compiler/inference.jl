@@ -95,6 +95,7 @@ tmerge_test(Tuple{}, Tuple{Complex, Vararg{Union{ComplexF32, ComplexF64}}},
     Union{Nothing, Tuple{Vararg{ComplexF32}}}
 @test Core.Compiler.tmerge(Union{Nothing, Tuple{ComplexF32}}, Union{Nothing, Tuple{ComplexF32, ComplexF32}}) ==
     Union{Nothing, Tuple{Vararg{ComplexF32}}}
+@test Core.Compiler.tmerge(Vector{Int}, Core.Compiler.tmerge(Vector{String}, Vector{Bool})) == Vector
 
 # issue 9770
 @noinline x9770() = false
@@ -2649,6 +2650,16 @@ end
 f(n) = depth(n, 1)
 end
 @test Base.return_types(TestConstPropRecursion.f, (TestConstPropRecursion.Node,)) == Any[Int]
+
+# issue #36230, keeping implications of all conditions in a && chain
+function symcmp36230(vec)
+    a, b = vec[1], vec[2]
+    if isa(a, Symbol) && isa(b, Symbol)
+        return a == b
+    end
+    return false
+end
+@test Base.return_types(symcmp36230, (Vector{Any},)) == Any[Bool]
 
 # issue #32699
 f32699(a) = (id = a[1],).id
