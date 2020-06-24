@@ -80,6 +80,8 @@
 // Automatic Instrumenting Profiler
 //#define ENABLE_TIMINGS
 
+// Tracing
+//#define ENABLE_TRACING
 
 // method dispatch profiling --------------------------------------------------
 
@@ -92,7 +94,7 @@
 
 // print all generic method dispatches (excludes inlined and specialized call
 // sites). this generally prints too much output to be useful.
-//#define JL_TRACE
+//#define JL_TRACE_DISPATCH
 
 // profile generic (not inlined or specialized) calls to each function
 //#define JL_GF_PROFILE
