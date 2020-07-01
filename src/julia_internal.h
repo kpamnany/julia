@@ -115,6 +115,7 @@ static inline uint64_t cycleclock(void)
 }
 
 #include "timing.h"
+#include "trace.h"
 
 #ifdef _COMPILER_MICROSOFT_
 #  define jl_return_address() ((uintptr_t)_ReturnAddress())

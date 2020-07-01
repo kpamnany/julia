@@ -290,6 +290,9 @@ JL_DLLEXPORT void jl_atexit_hook(int exitcode)
 #ifdef ENABLE_TIMINGS
     jl_print_timings();
 #endif
+#ifdef ENABLE_TRACING
+    jl_flush_all_traces();
+#endif
 
     jl_teardown_codegen();
 }
@@ -708,6 +711,12 @@ void _julia_init(JL_IMAGE_SEARCH rel)
 
     jl_init_threading();
     jl_init_intrinsic_properties();
+
+#ifdef ENABLE_TRACING
+    jl_init_tracing();
+    //JL_TRACE(TRACE_THREAD_START);
+    jl_trace(TRACE_THREAD_START);
+#endif
 
     jl_gc_enable(0);
 
